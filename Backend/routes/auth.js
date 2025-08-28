@@ -31,4 +31,34 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.post("/signup", (req, res) => {
+  const { username, password } = req.body;
+
+  const checkUserQuery = "SELECT * FROM users WHERE username = ?";
+  db.query(checkUserQuery, [username], async (err, results) => {
+    if (err) return res.status(500).json({ error: "Database error" });
+
+    if (results.length > 0) {
+      return res.status(401).json({ error: "User name already exists" });
+    }
+
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const insertQuery =
+        "INSERT INTO users (username, password) VALUES (?, ?)";
+      db.query(insertQuery, [username, hashedPassword], (err, result) => {
+        if (err) return res.status(500).json({ error: "Database error" });
+
+        return res.status(200).json({
+          message: "Successfully Added",
+          userId: result.user_id,
+        });
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error });
+    }
+  });
+});
+
 module.exports = router;
