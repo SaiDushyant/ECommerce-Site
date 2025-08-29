@@ -4,7 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage({ onSwitch }) {
-  const [currentPage, setCurrentPage] = useState("login"); // 'login' or 'signup'
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +13,7 @@ function LoginPage({ onSwitch }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/login", {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
         username,
         password,
       });

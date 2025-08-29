@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { ShoppingBag, Search, User, Heart, Star, LogOut } from "lucide-react";
+import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import Newsletter from "../components/Newsletter";
 
 const Home = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [products, setProducts] = useState([]); // products state
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -16,58 +19,30 @@ const Home = () => {
     }
   }, [navigate]);
 
-  // Dummy product data
-  const products = [
-    {
-      itemId: "CMD001",
-      name: "Essential White Tee",
-      description: "Premium cotton basic with perfect fit and lasting comfort",
-      price: 49.99,
-      rating: 4.8,
-      reviews: 124,
-    },
-    {
-      itemId: "CMD002",
-      name: "Minimalist Backpack",
-      description:
-        "Clean lines meet functionality in this versatile daily companion",
-      price: 129.99,
-      rating: 4.9,
-      reviews: 87,
-    },
-    {
-      itemId: "CMD003",
-      name: "Classic Denim",
-      description: "Timeless cut crafted from premium selvedge denim",
-      price: 189.99,
-      rating: 4.7,
-      reviews: 203,
-    },
-    {
-      itemId: "CMD004",
-      name: "Ceramic Mug Set",
-      description: "Hand-thrown ceramics for the perfect morning ritual",
-      price: 39.99,
-      rating: 4.6,
-      reviews: 156,
-    },
-    {
-      itemId: "CMD005",
-      name: "Leather Wallet",
-      description: "Handcrafted from full-grain leather with minimalist design",
-      price: 79.99,
-      rating: 4.9,
-      reviews: 91,
-    },
-    {
-      itemId: "CMD006",
-      name: "Wool Sweater",
-      description: "Luxuriously soft merino wool in a contemporary silhouette",
-      price: 159.99,
-      rating: 4.8,
-      reviews: 67,
-    },
-  ];
+  // Fetch products from backend (limit 5)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/product/products/6");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-gray-500">
+        Loading products...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-black font-sans">
@@ -101,23 +76,31 @@ const Home = () => {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {products.map((product) => (
             <div
-              key={product.itemId}
+              key={product.item_id} // DB column is item_id
               className="group cursor-pointer"
-              onMouseEnter={() => setHoveredProduct(product.itemId)}
+              onMouseEnter={() => setHoveredProduct(product.item_id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
-              {/* Product Image Placeholder */}
+              {/* Product Image */}
               <div className="aspect-square bg-gray-100 mb-3 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                  <div className="text-gray-500 text-3xl font-light">
-                    {product.itemId.slice(-1)}
+                {product.image_url ? (
+                  <img
+                    src={product.image_url}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                    <div className="text-gray-500 text-3xl font-light">
+                      {product.item_id}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Hover Overlay */}
                 <div
                   className={`absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center ${
-                    hoveredProduct === product.itemId
+                    hoveredProduct === product.item_id
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
@@ -167,33 +150,25 @@ const Home = () => {
 
         {/* View All Button */}
         <div className="text-center mt-16">
-          <button className="border-2 border-black text-black px-12 py-4 text-lg font-medium tracking-wide hover:bg-black hover:text-white transition-all duration-300">
+          <button
+            onClick={async () => {
+              try {
+                const res = await fetch("http://localhost:5000/api/products"); // 👈 all products
+                const data = await res.json();
+                setProducts(data);
+              } catch (err) {
+                console.error("Failed to fetch all products:", err);
+              }
+            }}
+            className="border-2 border-black text-black px-12 py-4 text-lg font-medium tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+          >
             VIEW ALL PRODUCTS
           </button>
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="bg-black text-white py-20">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl font-light tracking-wider mb-6">
-            STAY UPDATED
-          </h2>
-          <p className="text-xl text-gray-300 mb-12">
-            Be the first to know about new arrivals and exclusive offers
-          </p>
-          <div className="flex flex-col sm:flex-row max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-4 text-black text-lg mb-4 sm:mb-0 sm:mr-4 focus:outline-none"
-            />
-            <button className="bg-white text-black px-8 py-4 text-lg font-medium tracking-wide hover:bg-gray-200 transition-colors">
-              SUBSCRIBE
-            </button>
-          </div>
-        </div>
-      </section>
+      <Newsletter />
 
       <Footer />
     </div>
