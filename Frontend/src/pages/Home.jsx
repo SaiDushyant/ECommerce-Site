@@ -23,7 +23,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/product/products/6");
+        const res = await fetch("http://localhost:5000/api/product/limit/6");
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -35,6 +35,10 @@ const Home = () => {
 
     fetchProducts();
   }, []);
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
   if (loading) {
     return (
@@ -80,6 +84,7 @@ const Home = () => {
               className="group cursor-pointer"
               onMouseEnter={() => setHoveredProduct(product.item_id)}
               onMouseLeave={() => setHoveredProduct(null)}
+              onClick={() => handleProductClick(product.item_id)}
             >
               {/* Product Image */}
               <div className="aspect-square bg-gray-100 mb-3 relative overflow-hidden">

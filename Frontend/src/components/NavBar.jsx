@@ -21,7 +21,7 @@ function NavBar() {
               href="#"
               className="text-gray-600 hover:text-black transition-colors duration-200"
             >
-              Shop
+              Explore
             </a>
             <a
               href="#"
