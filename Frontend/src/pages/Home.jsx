@@ -156,14 +156,8 @@ const Home = () => {
         {/* View All Button */}
         <div className="text-center mt-16">
           <button
-            onClick={async () => {
-              try {
-                const res = await fetch("http://localhost:5000/api/products"); // 👈 all products
-                const data = await res.json();
-                setProducts(data);
-              } catch (err) {
-                console.error("Failed to fetch all products:", err);
-              }
+            onClick={() => {
+              navigate("/explore");
             }}
             className="border-2 border-black text-black px-12 py-4 text-lg font-medium tracking-wide hover:bg-black hover:text-white transition-all duration-300"
           >

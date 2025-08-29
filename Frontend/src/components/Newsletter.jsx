@@ -16,7 +16,7 @@ function Newsletter() {
             placeholder="Enter your email"
             className="flex-1 px-6 py-4 text-black text-lg mb-4 sm:mb-0 sm:mr-4 focus:outline-none bg-white"
           />
-          <button className="bg-black text-white border-2 border-white px-8 py-4 text-lg font-medium tracking-wide hover:bg-gray-200 transition-colors">
+          <button className="bg-black text-white border-2 border-white px-8 py-4 text-lg font-medium tracking-wide transition-colors">
             SUBSCRIBE
           </button>
         </div>
