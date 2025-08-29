@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Links, useNavigate } from "react-router-dom";
 import { Search, User, Heart, ShoppingBag, LogOut } from "lucide-react";
 
 function NavBar() {
@@ -13,28 +13,30 @@ function NavBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="text-2xl font-bold tracking-wider">COMMODITY</div>
+          <Link to="/home">
+            <div className="text-2xl font-bold tracking-wider">COMMODITY</div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
+            <Link
+              to="/explore"
               className="text-gray-600 hover:text-black transition-colors duration-200"
             >
               Explore
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/about"
               className="text-gray-600 hover:text-black transition-colors duration-200"
             >
               About
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/contact"
               className="text-gray-600 hover:text-black transition-colors duration-200"
             >
               Contact
-            </a>
+            </Link>
           </nav>
 
           {/* Actions */}
