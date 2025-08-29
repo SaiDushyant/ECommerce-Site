@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { Search, User, Heart, ShoppingBag, LogOut } from "lucide-react";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -9,22 +9,49 @@ function NavBar() {
     navigate("/");
   };
   return (
-    <header className="flex justify-between items-center mx-10">
-      <div className="text-4xl font-mono font-bold p-5">COMMODITY</div>
-      <nav className="text-2xl flex gap-10">
-        <Link>Home</Link>
-        <Link>Products</Link>
-        <Link>Gifts</Link>
-        <Link>New Arrivals</Link>
-      </nav>
-      <div className="flex flex-row justify-center items-center gap-8">
-        <FaShoppingCart size={28} />
-        <button
-          onClick={handleLogout}
-          className="py-2 px-4 text-xl text-white bg-red-500 hover:bg-red-600 rounded-xl"
-        >
-          Logout
-        </button>
+    <header className="border-b border-gray-200 bg-white sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="text-2xl font-bold tracking-wider">COMMMODITY</div>
+
+          {/* Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            <a
+              href="#"
+              className="text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              Shop
+            </a>
+            <a
+              href="#"
+              className="text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              About
+            </a>
+            <a
+              href="#"
+              className="text-gray-600 hover:text-black transition-colors duration-200"
+            >
+              Contact
+            </a>
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center space-x-4">
+            <Search className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
+            <User className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
+            <Heart className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
+            <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="text-sm font-medium">Logout</span>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   );

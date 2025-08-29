@@ -20,6 +20,27 @@ const products = [
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgJg1v9A7zNFGfX7fYB9pmpu1n5KqZOnl7vQ&s",
   },
+  {
+    id: 4,
+    name: "Smart Watch",
+    price: 2499,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmQoZBz1JvX3N7dH2gVXwzA4uYB7jStP9r2A&s",
+  },
+  {
+    id: 5,
+    name: "Sunglasses",
+    price: 799,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZk9E8qgXWxwTivP7Brm2hA9r7V5pkPzHQ0w&s",
+  },
+  {
+    id: 6,
+    name: "Leather Wallet",
+    price: 999,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzS4XJYhJfl0e5tZzN3W0Ge2oR5Q9jO6gcg&s",
+  },
 ];
 
 export default products;
