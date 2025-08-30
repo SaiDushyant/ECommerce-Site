@@ -44,7 +44,10 @@ function NavBar() {
             <Search className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
             <User className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
             <Heart className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
-            <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
+            <ShoppingBag
+              className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors"
+              onClick={() => navigate("/cart")}
+            />
             <button
               onClick={handleLogout}
               className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"

@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ExplorePage = () => {
   const [allProducts, setAllProducts] = useState([]); // ✅ fetched from backend
@@ -17,6 +19,7 @@ const ExplorePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
 
   // ✅ Fetch products from backend on page load
   useEffect(() => {
@@ -34,6 +37,26 @@ const ExplorePage = () => {
 
     fetchProducts();
   }, []);
+
+  const handleAddToCart = async (itemId, navigate) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/cart/add", {
+        userId,
+        itemId,
+      });
+    } catch (err) {
+      console.error(
+        "❌ Failed to add to cart:",
+        err.response?.data || err.message
+      );
+    }
+  };
 
   // ✅ Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
@@ -148,7 +171,7 @@ const ExplorePage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredAndSortedProducts.map((product) => (
-              <div key={product.product_id} className="group cursor-pointer">
+              <div key={product.item_id} className="group cursor-pointer">
                 {/* Product Image */}
                 <div className="aspect-square bg-gray-100 mb-4 relative overflow-hidden">
                   {product.image_url ? (
@@ -208,11 +231,7 @@ const ExplorePage = () => {
 
                   {/* Add to Cart Button */}
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log("Added to cart:", product.product_id);
-                      alert(`Added ${product.name} to cart!`);
-                    }}
+                    onClick={() => handleAddToCart(product.item_id, navigate)}
                     className="w-full bg-black text-white py-3 font-medium tracking-wide hover:bg-gray-800 transition-colors duration-300"
                   >
                     ADD TO CART

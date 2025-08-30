@@ -4,13 +4,35 @@ const router = express.Router();
 
 // Get all cart items for a user
 router.get("/:id", (req, res) => {
-  const id = req.params.id;
+  const userId = parseInt(req.params.id, 10);
 
-  db.query("SELECT * FROM cart WHERE user_id = ?", [id], (err, results) => {
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: "Invalid user ID" });
+  }
+
+  const query = `
+    SELECT 
+      cart.user_id,
+      cart.item_id,
+      cart.quantity,
+      products.name,
+      products.price,
+      products.rating,
+      products.reviews,
+      products.description,
+      products.image_url
+    FROM cart
+    JOIN products ON cart.item_id = products.item_id
+    WHERE cart.user_id = ?
+  `;
+
+  db.query(query, [userId], (err, results) => {
     if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Failed to fetch Cart" });
+      console.error("Error fetching cart with product details:", err);
+      return res.status(500).json({ error: "Failed to fetch cart data" });
     }
+
+    res.set("Cache-Control", "no-store");
     res.status(200).json(results);
   });
 });
