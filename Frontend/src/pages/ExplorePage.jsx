@@ -175,11 +175,7 @@ const ExplorePage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredAndSortedProducts.map((product) => (
-              <div
-                key={product.item_id}
-                className="group cursor-pointer"
-                onClick={() => handleProductClick(product.item_id)}
-              >
+              <div key={product.item_id} className="group cursor-pointer">
                 {/* Product Image */}
                 <div className="aspect-square bg-gray-100 mb-4 relative overflow-hidden">
                   {product.image_url ? (
@@ -197,7 +193,10 @@ const ExplorePage = () => {
                   )}
 
                   {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div
+                    className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100"
+                    onClick={() => handleProductClick(product.item_id)}
+                  >
                     <button className="bg-white text-black px-4 py-2 text-sm font-medium tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       VIEW PRODUCT
                     </button>

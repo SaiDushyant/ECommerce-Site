@@ -7,7 +7,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-2xl font-bold tracking-wider mb-4">
-              COMMMODITY
+              COMMODITY
             </h3>
             <p className="text-gray-600">
               Minimalist essentials for modern living

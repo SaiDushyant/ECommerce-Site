@@ -9,6 +9,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -32,10 +33,24 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
-  const handleAddToCart = () => {
-    if (!product) return;
-    console.log("Added to cart:", product.item_id);
-    alert(`Added ${product.name} to cart!`);
+  const handleAddToCart = async (itemId, navigate) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/cart/add", {
+        userId,
+        itemId,
+      });
+    } catch (err) {
+      console.error(
+        "❌ Failed to add to cart:",
+        err.response?.data || err.message
+      );
+    }
   };
 
   const handleLogout = () => {
@@ -79,8 +94,14 @@ const ProductPage = () => {
             <div className="flex items-center space-x-4">
               <Search className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
               <User className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
-              <ShoppingBag className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors" />
-              <button className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors">
+              <ShoppingBag
+                className="w-5 h-5 cursor-pointer hover:text-gray-600 transition-colors"
+                onClick={() => navigate("/cart")}
+              />
+              <button
+                className="flex items-center space-x-2 text-gray-600 hover:text-black transition-colors"
+                onClick={() => handleLogout}
+              >
                 <LogOut className="w-5 h-5" />
                 <span className="text-sm font-medium">Logout</span>
               </button>
@@ -142,7 +163,7 @@ const ProductPage = () => {
             <div className="text-3xl font-light">${product.price}</div>
 
             <button
-              onClick={handleAddToCart}
+              onClick={() => handleAddToCart(product.item_id, navigate)}
               className="bg-black text-white py-4 px-8 font-medium tracking-wide hover:bg-gray-800 transition-colors duration-300 w-full"
             >
               ADD TO CART
