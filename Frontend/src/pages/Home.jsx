@@ -62,7 +62,10 @@ const Home = () => {
             Curated essentials for the modern minimalist. Quality over quantity,
             always.
           </p>
-          <button className="bg-black text-white px-12 py-4 text-lg font-medium tracking-wide hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
+          <button
+            className="bg-black text-white px-12 py-4 text-lg font-medium tracking-wide hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
+            onClick={() => navigate("/explore")}
+          >
             EXPLORE COLLECTION
           </button>
         </div>

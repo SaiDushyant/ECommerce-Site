@@ -58,6 +58,10 @@ const ExplorePage = () => {
     }
   };
 
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   // ✅ Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = allProducts.filter(
@@ -171,7 +175,11 @@ const ExplorePage = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredAndSortedProducts.map((product) => (
-              <div key={product.item_id} className="group cursor-pointer">
+              <div
+                key={product.item_id}
+                className="group cursor-pointer"
+                onClick={() => handleProductClick(product.item_id)}
+              >
                 {/* Product Image */}
                 <div className="aspect-square bg-gray-100 mb-4 relative overflow-hidden">
                   {product.image_url ? (
